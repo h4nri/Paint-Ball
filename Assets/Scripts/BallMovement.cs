@@ -6,19 +6,20 @@ public class BallMovement : MonoBehaviour {
 
     private Rigidbody2D rb;
     [SerializeField] private float acceleration;
-    [SerializeField] private float initialVelocity;
-    [SerializeField] private float velocity;
+    [SerializeField] private float currentYVelocity;
+    [SerializeField] private float initialYVelocity;
+    [SerializeField] private float xVelocity;
     private bool falling;
 
     private void Awake()
     {
-        velocity = initialVelocity;
+        currentYVelocity = initialYVelocity;
         falling = true;
     }
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(0.0f, velocity);
+        rb.velocity = new Vector2(xVelocity, currentYVelocity);
 	}
 	
 	private void FixedUpdate() {
@@ -26,10 +27,10 @@ public class BallMovement : MonoBehaviour {
         {
             if (falling)
             {
-                velocity = -initialVelocity;
+                currentYVelocity = -initialYVelocity;
             } else
             {
-                velocity += acceleration;
+                currentYVelocity += acceleration;
             }
 
             falling = false;
@@ -38,15 +39,15 @@ public class BallMovement : MonoBehaviour {
         {
             if (falling)
             {
-                velocity = velocity - acceleration;
+                currentYVelocity -= acceleration;
             } else
             {
-                velocity = initialVelocity;
+                currentYVelocity = initialYVelocity;
             }
 
             falling = true;
         }
 
-        rb.velocity = new Vector2(0.0f, velocity);
+        rb.velocity = new Vector2(xVelocity, currentYVelocity);
     }
 }
